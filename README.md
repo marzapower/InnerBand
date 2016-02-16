@@ -165,13 +165,13 @@ There are two simple ways to include InnerBand in your application:
 
 ## Copy Source ##
 
-Copying the InnerBand source into your project is the most flexible and lets you update XCode without rebuilding the library, however you will have to compile it after a clean.  Still, this is the most common approach iPhone developers take for 3rd-party libraries.
+Copying the InnerBand source into your project is the most flexible and lets you update Xcode without rebuilding the library, however you will have to compile it after a clean.  Still, this is the most common approach iPhone developers take for 3rd-party libraries.
 
   1. Download an InnerBand source package (http://github.com/ZaBlanc/InnerBand/downloads) or clone the repository with:
 	
 	git clone git@github.com:ZaBlanc/InnerBand.git
 
-  2. Create a new XCode iPhone project if you haven't already.
+  2. Create a new Xcode iPhone project if you haven't already.
 
   3. Open the InnerBand sub-directory and copy the InnerBand/ directory into your project.  You can either copy it manually and choose to "Add Existing Files..." or drag-and-drop it directly.  (I prefer to include it in "Other Source" but you can put it anywhere you like.)
 
