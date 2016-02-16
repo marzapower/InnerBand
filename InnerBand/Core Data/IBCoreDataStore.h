@@ -21,7 +21,7 @@
 #import <CoreData/CoreData.h>
 
 @interface IBCoreDataStore : NSObject {
-	NSManagedObjectContext *_managedObjectContext;	
+	NSManagedObjectContext *_managedObjectContext;
 }
 
 @property (nonatomic, readonly) NSManagedObjectContext *context;
@@ -30,10 +30,13 @@
 + (IBCoreDataStore *)createStore;
 + (IBCoreDataStore *)createStoreWithContext:(NSManagedObjectContext *)context;
 
++ (void)setStorePathname:(NSString *)path;
++ (void)setModelPathname:(NSString *)path;
+
 - (id)initWithContext:(NSManagedObjectContext *)context;
 
 /* Clears all data from peristent store and re-initializes (great for unit testing!) */
-- (void)clearAllData;
++ (void)clearAllData;
 
 /* Saves context. */
 - (void)save;
@@ -68,7 +71,7 @@
 - (NSManagedObject *)entityByName:(NSString *)entityName error:(NSError **)error;
 
 /* Returns a single entity with the specified key/value. */
-- (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(NSObject *)value error:(NSError **)error;
+- (NSManagedObject *)entityByName:(NSString *)entityName key:(NSString *)key value:(id)value error:(NSError **)error;
 
 // TODO: Change key to attribute and make Class versions
 

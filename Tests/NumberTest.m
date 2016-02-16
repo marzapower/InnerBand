@@ -18,9 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBMacros.h"
-#import "IBFunctions.h"
-#import "NSNumber+InnerBand.h"
+#import "InnerBand.h"
 
 @interface NumberTest : GHTestCase
 @end

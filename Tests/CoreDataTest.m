@@ -19,12 +19,8 @@
 
 
 #import "GHUnit.h"
-#import "IBMacros.h"
-#import "IBFunctions.h"
-#import "NSMutableArray+InnerBand.h"
-#import "IBCoreDataStore.h"
+#import "InnerBand.h"
 #import "CoreDataWidget.h"
-#import "NSManagedObject+InnerBand.h"
 
 @interface CoreDataTest : GHTestCase
 
@@ -47,10 +43,8 @@
 }
 
 - (void)setUp {
-	IBCoreDataStore *store = [IBCoreDataStore mainStore];
-	
     // Run before each test method
-	[store clearAllData];
+	[IBCoreDataStore clearAllData];
 }
 
 - (void)tearDown {
@@ -214,4 +208,5 @@
 	
 	return widget;
 }
+
 @end

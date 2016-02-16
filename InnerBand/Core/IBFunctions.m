@@ -40,11 +40,14 @@ NSString *IB_STRINGIFY_DOUBLE(double x) { return [NSString stringWithFormat:@"%f
 // BOUNDS
 
 CGRect IB_RECT_WITH_X(CGRect rect, float x) { return CGRectMake(x, rect.origin.y, rect.size.width, rect.size.height); }
+CGRect IB_RECT_OFFSET_X(CGRect rect, float deltaX) { return CGRectMake(rect.origin.x + deltaX, rect.origin.y, rect.size.width, rect.size.height); }
 CGRect IB_RECT_WITH_Y(CGRect rect, float y) { return CGRectMake(rect.origin.x, y, rect.size.width, rect.size.height); }
+CGRect IB_RECT_OFFSET_Y(CGRect rect, float deltaY) { return CGRectMake(rect.origin.x, rect.origin.y + deltaY, rect.size.width, rect.size.height); }
 CGRect IB_RECT_WITH_X_Y(CGRect rect, float x, float y) { return CGRectMake(x, y, rect.size.width, rect.size.height); }
 
 CGRect IB_RECT_WITH_WIDTH_HEIGHT(CGRect rect, float width, float height) { return CGRectMake(rect.origin.x, rect.origin.y, width, height); }
 CGRect IB_RECT_WITH_WIDTH(CGRect rect, float width) { return CGRectMake(rect.origin.x, rect.origin.y, width, rect.size.height); }
+CGRect IB_RECT_WITH_WIDTH_FROM_RIGHT(CGRect rect, float width) { return CGRectMake(rect.origin.x + rect.size.width - width, rect.origin.y, width, rect.size.height); }
 CGRect IB_RECT_WITH_HEIGHT(CGRect rect, float height) { return CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, height); }
 CGRect IB_RECT_WITH_HEIGHT_FROM_BOTTOM(CGRect rect, float height) { return CGRectMake(rect.origin.x, rect.origin.y + rect.size.height - height, rect.size.width, height); }
 
@@ -73,6 +76,7 @@ double IB_CONSTRAINED_DOUBLE_VALUE(double val, double min, double max) { return 
 
 BOOL IB_IS_EMPTY_STRING(NSString *str) { return !str || ![str isKindOfClass:NSString.class] || [str length] == 0; }
 BOOL IB_IS_POPULATED_STRING(NSString *str) { return str && [str isKindOfClass:NSString.class] && [str length] > 0; }
+NSString *IB_EMPTY_STRING_IF_NIL(NSString *str) { return (str) ? str : @""; }
 
 // COLORS
 
@@ -82,6 +86,7 @@ NSInteger IB_COL_TO_RGB256(float col) { return (NSInteger)(col * 255.0); }
 // DIRECTORIES
 
 NSString *IB_DOCUMENTS_DIR(void) { return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]; }
+NSString *IB_CACHES_DIR(void) { return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]; }
 
 // HARDWARE/DEVICE CAPABILITY
 
@@ -114,7 +119,8 @@ BOOL IB_IS_GPS_ENABLED_ON_DEVICE(void) {
     BOOL isLocationServicesEnabled;
     
     Class locationClass = NSClassFromString(@"CLLocationManager");
-    NSMethodSignature *signature = [locationClass instanceMethodSignatureForSelector:@selector(locationServicesEnabled)];
+    SEL locationServicesEnabledSel = NSSelectorFromString(@"locationServicesEnabled");
+    NSMethodSignature *signature = [locationClass instanceMethodSignatureForSelector:locationServicesEnabledSel];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     
     [invocation invoke];
@@ -184,4 +190,8 @@ void IB_DISPATCH_TO_GLOBAL_QUEUE_AFTER(NSTimeInterval delay, dispatch_queue_prio
 void IB_DISPATCH_TO_QUEUE_AFTER(NSTimeInterval delay, dispatch_queue_t queue, void (^block)()) {
     dispatch_time_t runTime = dispatch_time(DISPATCH_TIME_NOW, delay * NSEC_PER_SEC);
     dispatch_after(runTime, queue, block);
+}
+
+NSString *L(NSString *key) {
+    return [[NSBundle mainBundle] localizedStringForKey:key value:@"" table:nil];
 }

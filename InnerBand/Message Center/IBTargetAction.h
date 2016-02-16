@@ -10,7 +10,7 @@
 
 @interface IBTargetAction : NSObject
 
-@property (nonatomic, assign) NSObject *target;
+@property (nonatomic, weak) id target;
 @property (nonatomic, copy) NSString *action;
 
 @end

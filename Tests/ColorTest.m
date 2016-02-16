@@ -18,9 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBMacros.h"
-#import "IBFunctions.h"
-#import "UIColor+InnerBand.h"
+#import "InnerBand.h"
 
 @interface ColorTest : GHTestCase
 @end

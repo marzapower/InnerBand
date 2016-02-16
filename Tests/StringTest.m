@@ -18,11 +18,7 @@
 //
 
 #import "GHUnit.h"
-#import "IBMacros.h"
-#import "IBFunctions.h"
-#import "NSString+InnerBand.h"
-#import "NSMutableString+InnerBand.h"
-#import "NSString+Encoding.h"
+#import "InnerBand.h"
 
 @interface StringTest : GHTestCase
 @end
@@ -44,6 +40,19 @@
 - (void)tearDown {
     // Run after each test method
 }   
+
+- (void)testNilEmptyStrings {
+	NSString *str;
+
+	str = IB_EMPTY_STRING_IF_NIL(nil);
+	GHAssertEqualObjects(@"", str, nil);
+
+    str = IB_EMPTY_STRING_IF_NIL(@"");
+	GHAssertEqualObjects(@"", str, nil);
+
+	str = IB_EMPTY_STRING_IF_NIL(@"a");
+	GHAssertEqualObjects(@"a", str, nil);
+}
 
 - (void)testEmptyStrings {
 	BOOL isEmpty;
@@ -137,6 +146,17 @@
     GHAssertEqualObjects(@"&lt;", [@"<" stringWithXMLSanitizingAndEscaping], nil);
     GHAssertEqualObjects(@"&gt;", [@">" stringWithXMLSanitizingAndEscaping], nil);
     GHAssertEqualObjects(@"&lt;&lt;", [@"<<" stringWithXMLSanitizingAndEscaping], nil);
+}
+
+- (void)testMatching {
+	GHAssertTrue([@"a" matchesRegex:@"a"], nil);
+	GHAssertTrue([@"abc" matchesRegex:@"a.*"], nil);
+	GHAssertFalse([@"abc" matchesRegex:@"[a-z]{2}"], nil);
+	GHAssertTrue([@"abc" matchesRegex:@"[a-z]{3}"], nil);
+	GHAssertTrue([@"*" matchesRegex:@"\\*"], nil);
+	GHAssertTrue([@"1" matchesRegex:@"\\d"], nil);
+	GHAssertFalse([@"123" matchesRegex:@"\\d{2}"], nil);
+	GHAssertTrue([@"123" matchesRegex:@"\\d{3}"], nil);
 }
 
 @end

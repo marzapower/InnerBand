@@ -21,7 +21,6 @@
 #import "IBDispatchMessage.h"
 #import "IBMessageProcessor.h"
 #import "NSObject+InnerBand.h"
-#import "IBMacros.h"
 #import "NSMutableArray+InnerBand.h"
 #import "IBTargetAction.h"
 
@@ -292,8 +291,13 @@ static NSString *getSourceIdentifier(id obj) {
 	// add a new array if there isn't one
 	if (!targetActions) {
 		[messageNames setObject:(targetActions = [NSMutableArray array]) forKey:name];
-	}
-	
+    } else {
+        // clean up
+        [targetActions deleteIf:^NSInteger(id iTA) {
+            return (![iTA target]);
+        }];
+    }
+
 	return targetActions;
 }
 
